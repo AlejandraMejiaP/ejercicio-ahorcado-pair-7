@@ -2,6 +2,21 @@ import "../styles/App.scss";
 import { useState } from "react";
 
 function App() {
+  let correctWord = "patata";
+  const correctLetters = [];
+ 
+ 
+//  const correctLetters = [];
+for (let i = 0; i < correctWord.length ; i++) {
+  
+  console.log(correctWord.charAt(i));
+correctLetters.push(correctWord.charAt(i));
+console.log(correctLetters);
+  
+}
+
+
+ 
   
   const [counter, setCounter]= useState(0);
   const numberOfErrors= (ev)=>{
@@ -25,37 +40,34 @@ function App() {
             <div className="solution">
               <h2 className="title">Solución:</h2>
               <ul className="letters">
-                <li className="letter">k</li>
+                <li className="letter">p</li>
                 <li className="letter">a</li>
                 <li className="letter"></li>
                 <li className="letter">a</li>
-                <li className="letter">k</li>
-                <li className="letter">r</li>
                 <li className="letter"></li>
-                <li className="letter">k</li>
-                <li className="letter">e</li>
-                <li className="letter">r</li>
+                <li className="letter">a</li>
+            
               </ul>
             </div>
             <div className="error">
               <h2 className="title">Letras falladas:</h2>
               <ul className="letters">
-                <li className="letter">f</li>
-                <li className="letter">q</li>
-                <li className="letter">h</li>
-                <li className="letter">p</li>
-                <li className="letter">x</li>
+                <li className="letter"></li>
+                <li className="letter"></li>
+                <li className="letter"></li>
+                <li className="letter"></li>
+                <li className="letter"></li>
               </ul>
             </div>
             <form className="form">
-              <label className="title" for="last-letter">
+              <label className="title" htmlFor="last-letter">
                 Escribe una letra:
               </label>
               <input
-              onKeyUp= {numberOfErrors}
-                autocomplete="off"
+              onKeyUp = {numberOfErrors}
+                autoComplete="off"
                 className="form__input"
-                maxlength="1"
+                maxLength="1"
                 type="text"
                 name="last-letter"
                 id="last-letter"
