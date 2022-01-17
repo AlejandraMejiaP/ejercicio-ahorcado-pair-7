@@ -1,41 +1,61 @@
-import '../styles/App.scss';
-import { useState } from 'react';
+import "../styles/App.scss";
+import { useState } from "react";
 
 function App() {
-  let word = 'patata';
-  const [chart, setChart] = useState('');
+  let keyword = "patata";
+  const [chart, setChart] = useState("");
+  const [counter, setCounter] = useState(0);
+  const [wrongLetters, setWrongLetters] = useState([]);
+  const [correctLetters, setCorrectLetters] = useState([]);
 
-  const renderSolutionLetters = () => {
-    const wordLetters = word.split('');
-    for (const letter of wordLetters) {
-      console.log(letter);
-    }
+  const renderSolutionLetters = () => {   
+    const wordLetters = keyword.split("");
     return wordLetters.map((letter, index) => {
+    if(correctLetters.includes(letter)){ return <li key={index} className="letter">{letter}</li>}
+    else {
       return <li key={index} className="letter"></li>;
+    } 
     });
   };
-  const lastLetter = (ev) => {
-    setChart(ev.currentTarget.value);
+
+  const renderWrongLetters = () => {
+   
+    return wrongLetters.map((error, index) => {      
+        return <li key={index} className="letter">{error}</li>
+       
+    });
   };
-  //  const correctLetters = [];
-  // for (let i = 0; i < correctWord.length ; i++) {
 
-  //   console.log(correctWord.charAt(i));
-  // correctLetters.push(correctWord.charAt(i));
-  // console.log(correctLetters);
-
-  // }
-
-  const [counter, setCounter] = useState(0);
   const numberOfErrors = (ev) => {
     ev.preventDefault();
     if (ev.keyCode === 8) {
       setCounter(counter);
-      console.log(counter);
-    } else if (ev.keyCode === '^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$') {
+    } else {
       setCounter(counter + 1);
     }
+    console.log(counter);
   };
+  console.log(wrongLetters)
+  console.log(correctLetters);
+  const handleLastLetter = (ev) => {
+    ev.preventDefault();
+    let lastInput = ev.currentTarget.value;
+    if (lastInput.match("^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$")) {
+      numberOfErrors(ev);
+      setChart(lastInput);         
+      if (lastInput !== "") {
+        if (keyword.includes(lastInput)) {  
+          setCorrectLetters([...correctLetters, lastInput]);       
+          console.log("acierto");
+        } else {         
+          console.log("error");
+          setWrongLetters([...wrongLetters, lastInput]);
+         ;
+        }
+      }
+    }
+  };
+
 
   return (
     <>
@@ -47,25 +67,11 @@ function App() {
           <section>
             <div className="solution">
               <h2 className="title">Solución:</h2>
-              <ul className="letters">
-                {renderSolutionLetters()}
-                {/* <li className="letter">p</li>
-                <li className="letter">a</li>
-                <li className="letter"></li>
-                <li className="letter">a</li>
-                <li className="letter"></li>
-                <li className="letter">a</li> */}
-              </ul>
+              <ul className="letters">{renderSolutionLetters()}</ul>
             </div>
             <div className="error">
               <h2 className="title">Letras falladas:</h2>
-              <ul className="letters">
-                <li className="letter"></li>
-                <li className="letter"></li>
-                <li className="letter"></li>
-                <li className="letter"></li>
-                <li className="letter"></li>
-              </ul>
+              <ul className="letters">{renderWrongLetters()}</ul>
             </div>
             <form className="form">
               <label className="title" htmlFor="last-letter">
@@ -73,14 +79,14 @@ function App() {
               </label>
               <input
                 value={chart}
-                onKeyUp={numberOfErrors}
-                onChange={lastLetter}
+                onChange={handleLastLetter}
                 autoComplete="off"
                 className="form__input"
                 maxLength="1"
                 type="text"
                 name="last-letter"
                 id="last-letter"
+                pattern="^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$"
               />
             </form>
           </section>
