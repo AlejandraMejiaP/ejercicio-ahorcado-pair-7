@@ -8,21 +8,28 @@ function App() {
   const [wrongLetters, setWrongLetters] = useState([]);
   const [correctLetters, setCorrectLetters] = useState([]);
 
-  const renderSolutionLetters = () => {   
+  const renderSolutionLetters = () => {
     const wordLetters = keyword.split("");
     return wordLetters.map((letter, index) => {
-    if(correctLetters.includes(letter)){ return <li key={index} className="letter">{letter}</li>}
-    else {
-      return <li key={index} className="letter"></li>;
-    } 
+      if (correctLetters.includes(letter)) {
+        return (
+          <li key={index} className="letter">
+            {letter}
+          </li>
+        );
+      } else {
+        return <li key={index} className="letter"></li>;
+      }
     });
   };
 
   const renderWrongLetters = () => {
-   
-    return wrongLetters.map((error, index) => {      
-        return <li key={index} className="letter">{error}</li>
-       
+    return wrongLetters.map((error, index) => {
+      return (
+        <li key={index} className="letter">
+          {error}
+        </li>
+      );
     });
   };
 
@@ -35,27 +42,23 @@ function App() {
     }
     console.log(counter);
   };
-  console.log(wrongLetters)
+  console.log(wrongLetters);
   console.log(correctLetters);
   const handleLastLetter = (ev) => {
     ev.preventDefault();
     let lastInput = ev.currentTarget.value;
-    if (lastInput.match("^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$")) {
-      numberOfErrors(ev);
-      setChart(lastInput);         
+    if (lastInput.match("^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$")) {      
+      setChart(lastInput);      
       if (lastInput !== "") {
-        if (keyword.includes(lastInput)) {  
-          setCorrectLetters([...correctLetters, lastInput]);       
-          console.log("acierto");
-        } else {         
-          console.log("error");
+        if (keyword.includes(lastInput)) {
+          setCorrectLetters([...correctLetters, lastInput]);
+        } else {
           setWrongLetters([...wrongLetters, lastInput]);
-         ;
+          numberOfErrors(ev);
         }
       }
     }
   };
-
 
   return (
     <>
